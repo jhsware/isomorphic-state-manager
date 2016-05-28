@@ -9,72 +9,74 @@ Each update increments a version counter providing a simple check of data integr
 ### StateManager ###
 
     var stateManager = new StateManager([storeType: Store])
-    
-    => returns a new StateManager instance
-    
-    storeType -- the store type you want to use, currently only one available: 
-    
-        var Store = require('isomorphic-state-manager').Store
 
-##### .stateFor([storeName: string]) 
+=> returns a new StateManager instance
 
-    => returns StoreController
+storeType -- the store type you want to use, currently only one available: 
 
-    storeName -- the name of the store you want to access. If the store doesn't exist it will be created
+    var Store = require('isomorphic-state-manager').Store
+
+##### .stateFor( storeName ) 
+
+=> returns StoreController
+
+storeName -- the name of the store you want to access. If the store doesn't exist it will be created
 
 ##### .hydrate()
 
-    => returns a dictionary object containing all stores and current state. Keys correspond to store name
+=> returns a dictionary object containing all stores and current state. Keys correspond to store name
 
-##### .rehydrate([data: object])
+##### .rehydrate( data )
 
-    => returns undefined
-    
-    data -- a dictionary object that corresponds to current state of store. Keys correspond to store name
+=> returns undefined
+
+data -- a dictionary object that corresponds to current state of store. Keys correspond to store name
 
 ### StoreController ###
 
     var sessionState = stateManager.stateFor('Session')
 
+Normally I call the storeController variable something like `[session]State` because it is more readable.
+
 ##### .getState()
-    
-    => returns a dictionary object representing the current state of the store
 
-##### .default([data: object])
+=> returns a dictionary object representing the current state of the store
 
-    => returns this StoreController (allowing chaining)
-    
-    data -- a dictionary object with the default state. The store is updated for all properties of the dictionary that aren't available in current state. Implementation does a .hasOwnProperty() test.
+##### .default( data )
 
-##### .update([data: object])
+=> returns this StoreController (allowing chaining)
 
-    => returns this StoreController (allowing chaining)
-    
-    data -- a dictionary object that updates current state by shallow merge. Passed object overwrites existing properties
+data -- a dictionary object with the default state. The store is updated for all properties of the dictionary that aren't available in current state. Implementation does a .hasOwnProperty() test.
 
-##### .replace([data: object])
+##### .update( data )
 
-    => returns this StoreController (allowing chaining)
-    
-    data -- a dictionary object replacing current state entirely
+=> returns this StoreController (allowing chaining)
 
-##### .subscribe([callback: func], [thisArg: object || func])
+data -- a dictionary object that updates current state by shallow merge. Passed object overwrites existing properties
 
-    => returns current state (convenience, allowing us to skip an additional .getState())
-    
-    callback -- a function to call (without params) when the store has been updated
-    
-    thisArg -- sets this when invoking the callback
+##### .replace( data )
 
-##### .unsubscribe([callback: func], [thisArg: object || func])
+=> returns this StoreController (allowing chaining)
 
-    => returns undefined
-    
-    callback -- the function callback we want to remove (same as used for .subscribe)
-    
-    thisArg -- thisArg of the callback we want to remove (same as used for .subscribe)
-    
-    NOTE: You need to provide both callback and thisArg in order to unsubscribe properly when used with for example React
+data -- a dictionary object replacing current state entirely
+
+##### .subscribe( callback, thisArg )
+
+=> returns current state (convenience, allowing us to skip an additional .getState())
+
+callback -- a function to call (without params) when the store has been updated
+
+thisArg -- sets this when invoking the callback
+
+##### .unsubscribe( callback, thisArg )
+
+=> returns undefined
+
+callback -- the function callback we want to remove (same as used for .subscribe)
+
+thisArg -- thisArg of the callback we want to remove (same as used for .subscribe)
+
+*NOTE:* You need to provide both callback and thisArg in order to unsubscribe properly when used with for example React
 
 ### TODO ###
 
