@@ -17,7 +17,7 @@ Example of usage:
         console.log(currentState)
     }
     
-    sessionStore.subscribe(callback, callback) // using callback as this
+    sessionStore.subscribe(callback) // Don't need a thisArg for the plain function used here as callback
     
     sessionStore.update({userName: "Sebastian"})
     
