@@ -39,36 +39,40 @@ describe('State Manager', function() {
     });
     
     it('can get a call to subscriber when updating data', function(done) {
-        var didUpdate = function (newState) {
-            expect(newState.data).to.equal('updated');
+        var stateManager = new StateManager(Store);
+        var storeController = stateManager.storeFor('/dummy');
+
+        var didUpdate = function () {
+            var state = storeController.getState()
+            expect(state.data).to.equal('updated')
             done();
         }
         
-        var stateManager = new StateManager(Store);
-        var storeController = stateManager.storeFor('/dummy');
         var result = storeController
             .default({data: 'test'})
-            .subscribe(didUpdate, this);
+            .subscribe(didUpdate);
         storeController.update({
             data: 'updated'
         });
     });
 
     it('can unsubscribe from updates', function(done) {
-        var noCall = function (newState) {
-            expect(newState.data).to.equal("This shouldn't be called!");
+        var stateManager = new StateManager(Store);
+        var storeController = stateManager.storeFor('/dummy')
+
+        var noCall = function () {
+            expect(true).to.equal("This shouldn't be called!")
         }
-        var didUpdate = function (newState) {
-            expect(newState.data).to.equal('updated');
+        var didUpdate = function () {
+            var state = storeController.getState()
+            expect(state.data).to.equal('updated')
             done();
         }
         
-        var stateManager = new StateManager(Store);
-        var storeController = stateManager.storeFor('/dummy');
-        storeController.default({data: 'test'});
-        storeController.subscribe(noCall, this);
-        storeController.subscribe(didUpdate, this);
-        storeController.unsubscribe(noCall);
+        storeController.default({data: 'test'})
+        storeController.subscribe(noCall)
+        storeController.subscribe(didUpdate)
+        storeController.unsubscribe(noCall)
         storeController.update({
             data: 'updated'
         });
@@ -77,13 +81,15 @@ describe('State Manager', function() {
 
     
     it('does update version nr in store', function(done) {
-        var didUpdate = function (newState) {
-            expect(newState.__version).to.equal(1);
+        var stateManager = new StateManager(Store);
+        var storeController = stateManager.storeFor('/dummy');
+
+        var didUpdate = function () {
+            var state = storeController.getState()
+            expect(state.__version).to.equal(1);
             done();
         }
         
-        var stateManager = new StateManager(Store);
-        var storeController = stateManager.storeFor('/dummy');
         var result = storeController
             .default({data: 'test'})
             .subscribe(didUpdate, this);
@@ -95,14 +101,16 @@ describe('State Manager', function() {
     });
     
     it('does not mutate old states', function(done) {
+        var stateManager = new StateManager(Store);
+        var storeController = stateManager.storeFor('/dummy');
+
         var didUpdate = function (newState) {
-            expect(newState.data).to.equal('updated');
+            var state = storeController.getState()
+            expect(state.data).to.equal('updated');
             expect(result.data).to.equal('test');
             done();
         }
         
-        var stateManager = new StateManager(Store);
-        var storeController = stateManager.storeFor('/dummy');
         var result = storeController
             .default({data: 'test'})
             .subscribe(didUpdate, this);
@@ -112,14 +120,16 @@ describe('State Manager', function() {
     });
     
     it('only changes state properties that are passed to update', function(done) {
-        var didUpdate = function (newState) {
-            expect(newState.data).to.equal('updated');
-            expect(newState.other).to.equal('original');
+        var stateManager = new StateManager(Store);
+        var storeController = stateManager.storeFor('/dummy');
+
+        var didUpdate = function () {
+            var state = storeController.getState()
+            expect(state.data).to.equal('updated');
+            expect(state.other).to.equal('original');
             done();
         }
         
-        var stateManager = new StateManager(Store);
-        var storeController = stateManager.storeFor('/dummy');
         var result = storeController
             .default({
                 data: 'test',
@@ -144,6 +154,7 @@ describe('State Manager', function() {
         
         var stateManager = new StateManager(Store);
         var dummyStore = stateManager.storeFor('/dummy');
+        
         var result = dummyStore
             .update({
                 data: 'test',
