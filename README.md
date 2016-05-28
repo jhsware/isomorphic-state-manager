@@ -8,19 +8,21 @@ Each update increments a version counter providing a simple check of data integr
 
 ### StateManager ###
 
-    var stateManager = new StateManager([storeType: Store])
+    var stateManager = new StateManager( Store )
 
 => returns a new StateManager instance
 
-storeType -- the store type you want to use, currently only one available: 
+*Store* -- the store type you want to use, currently only one available: 
 
     var Store = require('isomorphic-state-manager').Store
+
+Note: You pass the prorotype, not an instance of Store
 
 ##### .stateFor( storeName ) 
 
 => returns StoreController
 
-storeName -- the name of the store you want to access. If the store doesn't exist it will be created
+*storeName* -- the name of the store you want to access. If the store doesn't exist it will be created
 
 ##### .hydrate()
 
@@ -30,7 +32,7 @@ storeName -- the name of the store you want to access. If the store doesn't exis
 
 => returns undefined
 
-data -- a dictionary object that corresponds to current state of store. Keys correspond to store name
+*data* -- a dictionary object that corresponds to current state of store. Keys correspond to store name
 
 ### StoreController ###
 
@@ -46,35 +48,35 @@ Normally I call the storeController variable something like `[session]State` bec
 
 => returns this StoreController (allowing chaining)
 
-data -- a dictionary object with the default state. The store is updated for all properties of the dictionary that aren't available in current state. Implementation does a .hasOwnProperty() test.
+*data* -- a dictionary object with the default state. The store is updated for all properties of the dictionary that aren't available in current state. Implementation does a .hasOwnProperty() test.
 
 ##### .update( data )
 
 => returns this StoreController (allowing chaining)
 
-data -- a dictionary object that updates current state by shallow merge. Passed object overwrites existing properties
+*data* -- a dictionary object that updates current state by shallow merge. Passed object overwrites existing properties
 
 ##### .replace( data )
 
 => returns this StoreController (allowing chaining)
 
-data -- a dictionary object replacing current state entirely
+*data* -- a dictionary object replacing current state entirely
 
 ##### .subscribe( callback, thisArg )
 
 => returns current state (convenience, allowing us to skip an additional .getState())
 
-callback -- a function to call (without params) when the store has been updated
+*callback* -- a function to call (without params) when the store has been updated
 
-thisArg -- sets this when invoking the callback
+*thisArg* -- sets this when invoking the callback
 
 ##### .unsubscribe( callback, thisArg )
 
 => returns undefined
 
-callback -- the function callback we want to remove (same as used for .subscribe)
+*callback* -- the function callback we want to remove (same as used for .subscribe)
 
-thisArg -- thisArg of the callback we want to remove (same as used for .subscribe)
+*thisArg* -- thisArg of the callback we want to remove (same as used for .subscribe)
 
 *NOTE:* You need to provide both callback and thisArg in order to unsubscribe properly when used with for example React
 
