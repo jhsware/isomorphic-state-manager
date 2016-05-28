@@ -16,17 +16,17 @@ Each update increments a version counter providing a simple check of data integr
     
         var Store = require('isomorphic-state-manager').Store
 
-#### .stateFor([storeName: string]) 
+##### .stateFor([storeName: string]) 
 
     => returns StoreController
 
     storeName -- the name of the store you want to access. If the store doesn't exist it will be created
 
-#### .hydrate()
+##### .hydrate()
 
     => returns a dictionary object containing all stores and current state. Keys correspond to store name
 
-#### .rehydrate([data: object])
+##### .rehydrate([data: object])
 
     => returns undefined
     
@@ -36,29 +36,29 @@ Each update increments a version counter providing a simple check of data integr
 
     var sessionState = stateManager.stateFor('Session')
 
-#### .getState()
+##### .getState()
     
     => returns a dictionary object representing the current state of the store
 
-#### .default([data: object])
+##### .default([data: object])
 
     => returns this StoreController (allowing chaining)
     
     data -- a dictionary object with the default state. The store is updated for all properties of the dictionary that aren't available in current state. Implementation does a .hasOwnProperty() test.
 
-#### .update([data: object])
+##### .update([data: object])
 
     => returns this StoreController (allowing chaining)
     
     data -- a dictionary object that updates current state by shallow merge. Passed object overwrites existing properties
 
-#### .replace([data: object])
+##### .replace([data: object])
 
     => returns this StoreController (allowing chaining)
     
     data -- a dictionary object replacing current state entirely
 
-#### .subscribe([callback: func], [thisArg: object || func])
+##### .subscribe([callback: func], [thisArg: object || func])
 
     => returns current state (convenience, allowing us to skip an additional .getState())
     
@@ -66,7 +66,7 @@ Each update increments a version counter providing a simple check of data integr
     
     thisArg -- sets this when invoking the callback
 
-#### .unsubscribe([callback: func], [thisArg: object || func])
+##### .unsubscribe([callback: func], [thisArg: object || func])
 
     => returns undefined
     
