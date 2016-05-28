@@ -4,6 +4,32 @@ Create a state machine that keeps your state in named stores. Supports hydration
 
 Each update increments a version counter providing a simple check of data integrity.
 
+Example of usage:
+
+    var StateManager = require('isomorphic-state-manager').StateManager
+    
+    var stateManager = new StateManager(Store)
+    
+    var sessionStore = stateManager.storeFor('Session')
+    
+    function callback() {
+        var currentState = sessionStore.getState()
+        console.log(currentState)
+    }
+    
+    sessionStore.subscribe(callback, callback) // using callback as this
+    
+    sessionStore.update({userName: "Sebastian"})
+    
+    /*
+        The callback is automatically called on update and outputs the state:
+        
+        {
+            userName: "Sebastian",
+            __version: 1
+        }
+    */
+
 ## API Reference
 
 ### StateManager ###
@@ -22,7 +48,7 @@ Note: You pass the prorotype, not an instance of Store
 
 => returns StoreController
 
-*storeName* -- the name of the store you want to access. If the store doesn't exist it will be created
+_storeName_ -- the name of the store you want to access. If the store doesn't exist it will be created
 
 ##### .hydrate()
 
@@ -36,9 +62,7 @@ Note: You pass the prorotype, not an instance of Store
 
 ### StoreController ###
 
-    var sessionState = stateManager.stateFor('Session')
-
-Normally I call the storeController variable something like `[session]State` because it is more readable.
+    var sessionStore = stateManager.stateFor('Session')
 
 ##### .getState()
 
